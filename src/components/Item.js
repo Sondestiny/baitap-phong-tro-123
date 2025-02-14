@@ -1,4 +1,6 @@
 import React from 'react'
+import icons from '../ultils/icons'
+const {BsFillBookmarkStarFill, FaStar} = icons
 const images = [
     "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2021/05/28/eca9b02f-1ebe-4f70-8ac5-0aac217e949c-1568169924-1584156094_1622168156.jpg",
     "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2021/05/28/img-20210401-155156-1617952227_1622168155.jpg",
@@ -13,16 +15,49 @@ const images = [
   ]
 const Item = () => {
   return (
-    <div className='flex gap-2'>
+    <div className='flex gap-2 border-t-2 p-2 border-orange-400'>
       <div className='w-2/5 grid grid-cols-2 grid-rows-2 gap-1'>
             <img className='object-cover w-full h-full' src={images[0]} alt='image'/>
             <img className='object-cover w-full h-full' src={images[1]} alt='image'/>
             <img className='object-cover w-full h-full' src={images[2]} alt='image'/>
             <img className='object-cover w-full h-full' src={images[3]} alt='image'/>
       </div>
-      <div className='w-3/5'>
-      
-      
+      <div className='w-3/5 p-2'>
+        <div className='flex justify-between gap-3 items-center'> 
+          <a className=' text-red-600 font-bold'> 
+              <FaStar color='yellow' size={18} className=' star-icon'/>
+              <FaStar color='yellow' size={18} className=' star-icon'/>
+              <FaStar color='yellow' size={18} className=' star-icon'/>
+              <FaStar color='yellow' size={18} className=' star-icon'/>
+              <FaStar color='yellow' size={18} className=' star-icon'/>
+              CHO THUÊ CĂN HỘ HOẶC VĂN PHÒNG LÀM VIỆC
+          </a>
+          <div className=' w-1/10 flex justify-end'> 
+              <BsFillBookmarkStarFill color='orange' size={24}></BsFillBookmarkStarFill>
+          </div> 
+        </div>
+
+        <div className='flex justify-between items-center my-2'>
+          <span className='font-bold text-green-600'> 3.7 triệu / tháng </span>
+          <span> 28 m2 </span>
+          <span> Quận Tân Bình, Thành phố Hồ Chí Minh </span>
+        </div>
+
+        <div className='text-gray-400'>
+        Homestay Hoàng Phúc - CAO CẤP - ĐẦY ĐỦ1 TIỆN NGHI - CHUẨN 2 SAO- Trọn gói chỉ 800k tháng đầu - các tháng sau chỉ từ 1tr đã bao gồm: tiền phòng, điện nước,…
+        </div>
+
+        <div className='flex justify-between my-2'>
+          <div className='flex items-center gap-2'>
+            <img className='w-[36px] h-[36px] object-cover rounded-full' src='https://mastodon.sdf.org/system/accounts/avatars/000/108/313/original/035ab20c290d3722.png' alt='user-img'/>
+            <p> Tuệ Minh</p>
+          </div>
+
+          <div className=' flex gap-2'>
+            <button type='button' className='bg-blue-400 text-white rounded-lg px-3 py-2'> Gọi 0465123512 </button>
+            <button type='button' className='border-4 border-indigo-500 text-blue-500 font-bold rounded-lg px-3 py-2' > Gọi Zalo </button>
+          </div>
+        </div>     
       </div>
     </div>
   )
