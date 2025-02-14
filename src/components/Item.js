@@ -1,6 +1,6 @@
-import React from 'react'
+import React, { useState } from 'react'
 import icons from '../ultils/icons'
-const {BsFillBookmarkStarFill, FaStar} = icons
+const {BsFillBookmarkStarFill, FaStar, RiHeartLine} = icons
 const images = [
     "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2021/05/28/eca9b02f-1ebe-4f70-8ac5-0aac217e949c-1568169924-1584156094_1622168156.jpg",
     "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2021/05/28/img-20210401-155156-1617952227_1622168155.jpg",
@@ -14,13 +14,23 @@ const images = [
     "https://pt123.cdn.static123.com/images/thumbs/900x600/fit/2021/05/28/8d9f7fb4-b7de-40de-9cec-ae409252f1f2-1568169920-1584156094_1622168157.jpg"
   ]
 const Item = () => {
+  // const [isHoverHeart, setIsHoverHeart] = useState(false)
+  // console.log(isHoverHeart)
   return (
     <div className='flex gap-2 border-t-2 p-2 border-orange-400'>
-      <div className='w-2/5 grid grid-cols-2 grid-rows-2 gap-1'>
+      <div className='w-2/5 grid grid-cols-2 grid-rows-2 gap-1 relative'>
             <img className='object-cover w-full h-full' src={images[0]} alt='image'/>
             <img className='object-cover w-full h-full' src={images[1]} alt='image'/>
             <img className='object-cover w-full h-full' src={images[2]} alt='image'/>
             <img className='object-cover w-full h-full' src={images[3]} alt='image'/>
+            <span className='bg-gray-500 text-white opacity-75 rounded-md px-1 absolute left-2 bottom-2' > 4 ảnh </span>
+            <span 
+              className='text-white absolute right-2 bottom-2'
+              // onClick={setIsHoverHeart(true)}
+            >
+              {/* {isHoverHeart ? <RiHeartLine size={26} color={ 'red' }/> : <RiHeartLine size={26}/>} */}
+              <RiHeartLine size={24} color='red'></RiHeartLine>
+            </span>
       </div>
       <div className='w-3/5 p-2'>
         <div className='flex justify-between gap-3 items-center'> 
@@ -62,5 +72,4 @@ const Item = () => {
     </div>
   )
 }
-
 export default Item
