@@ -6,7 +6,6 @@ const apiRegister = (payload) => {new Promise(async (resolve, reject) => {
             url: 'api/v1/auth/register',
             data: payload
         })
-        console.log(response)
         resolve(response)
     } catch (error) {
         console.log(error)

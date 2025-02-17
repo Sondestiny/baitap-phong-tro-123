@@ -9,3 +9,5 @@ export {default as Apartment} from './Apartment';
 export {default as MiniApartment} from './MiniApartment';
 export {default as ServicedApartment} from './ServicedApartment';
 export {default as Search} from './Search';
+export {default as NavigationPage} from './navigationPage';
+export {default as List} from './List';
