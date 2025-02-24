@@ -16,4 +16,27 @@ const dataAreas = [
     {code: '23XVZ51S', order:6, min: 90, max: 99999, value: 'Trên 90m'}, 
 ]
 
-export {dataPrices, dataAreas}
+const dataCategories = [
+    {
+        code: 'CHPT',
+        value: 'Cho thuê phòng trọ',
+        subtitle: 'Kênh thông tin Phòng trọ số 1 Việt Nam'
+    },
+    {
+        code: 'CHNNC',
+        value: 'Cho thuê nhà nguyên căn',
+        subtitle: 'Cho Thuê Nhà Nguyên Căn, Giá Rẻ, Chính Chủ, Mới Nhất 2025'
+    },
+    {
+        code: 'CHCHCC',
+        value: 'Cho thuê căn hộ chung cư',
+        subtitle: 'Cho Thuê Căn Hộ Chung Cư, Giá Rẻ, View Đẹp, Mới Nhất 2025'
+    },
+    {
+        code: 'CHCHMN',
+        value: 'Cho thuê căn hộ mini',
+        subtitle: 'Cho Thuê Căn Hộ Mini + Chung Cư Mini Giá Rẻ, Mới Nhất 2025'
+    },
+    
+]
+export {dataPrices, dataAreas, dataCategories}

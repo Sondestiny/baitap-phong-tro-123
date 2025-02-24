@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   Category.init({
-    code: DataTypes.INTEGER,
+    code: DataTypes.STRING,
     value: DataTypes.STRING,
     subtitle: DataTypes.STRING
   }, {
