@@ -7,5 +7,6 @@ const actionTypes = {
     LOGOUT: "LOGOUT",
     GET_ALL_POST: "GET_ALL_POST",
     GET_LIMIT_POST: "GET_LIMIT_POST",
+    GET_APP_DATA: "GET_APP_DATA",
 }
 export default actionTypes

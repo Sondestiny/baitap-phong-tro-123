@@ -1,22 +1,24 @@
-import React, { useEffect, useState} from 'react'
+import {useEffect} from 'react'
 import { useDispatch,useSelector } from 'react-redux'
-import { useSearchParams} from 'react-router-dom';
+import { useLocation, useSearchParams} from 'react-router-dom';
 import * as actions from '../../store/actions'
 import { Button, Item } from '../../components'
-import {NavigationPage} from '../public'
+import {NavigationPage, Sitebar} from '../public'
 const HomePage = () => {
   const dispatch = useDispatch()
   const [searchParams, setSearchParams] = useSearchParams();
-
+  const location = useLocation()
   const page = searchParams.get('page')
-  const {count, rows} = useSelector(state => state.post).post
-
-  useEffect( () => {
-    
-    dispatch(actions.GetLimit(page ? page : 1))
-    
-  } ,[page])
+  const codePrice = searchParams.get('codePrice')
+  const codeArea = searchParams.get('codeArea')
   
+  useEffect( () => {
+    console.log(location)
+    dispatch(actions.GetAppData())
+    dispatch(actions.GetLimit(page ? page : 1, codePrice, codeArea ))
+  } ,[location])
+  const {count, rows} = useSelector(state => state.post).post
+  const {Area, Price} = useSelector(state => state.app)
   
   return (
     <div className='flex justify-between gap-3' >
@@ -33,8 +35,8 @@ const HomePage = () => {
         <Button bgColor={'bg-gray-400'} text={'Mới nhất'}></Button>
         
         </div>
-        
-          {rows ? rows.map((item) => {
+          {
+          rows ? rows.map((item) => {
               const {images, star, title, description, attribute, address, user} = item;
               return (
                 <Item
@@ -55,8 +57,8 @@ const HomePage = () => {
         <NavigationPage currentPage={page ? page : 1} totalPage={Math.floor(count ? count/5 : 0)} ></NavigationPage>
         <div className='h-[100px]'></div>
       </div>
-      <div className=' w-[30%] bg-white rounded-md'>
-        siteBar
+      <div className=' w-[30%]'>
+        <Sitebar Price={Price} Area={Area}/>
       </div>
     </div>
   )

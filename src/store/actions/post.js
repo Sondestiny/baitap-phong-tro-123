@@ -23,10 +23,10 @@ export const GetAll = () => {
         }
     }
 }
-export const GetLimit = (pageNumber) => {
+export const GetLimit = (page, codePrice, codeArea) => {
     return async (dispatch) => {
         try {
-            let response = await apiPostGetLimit(pageNumber)
+            let response = await apiPostGetLimit(page, codePrice, codeArea)
             if (response?.data.err === 0 ) {
                 dispatch({
                     type: actionTypes.GET_LIMIT_POST,

@@ -12,7 +12,6 @@ import axiosConfig from '../axiosConfig'
 //         reject(error)
 //     }
 // })}
-
 const apiPostGetAll = async () => {
     try {
         const response = await axiosConfig({
@@ -25,13 +24,17 @@ const apiPostGetAll = async () => {
     }
 }
 
-const apiPostGetLimit = async (pageNumber) => {
+const apiPostGetLimit = async (page, codePrice, codeArea) => {
     try {
         const response = await axiosConfig({
             method: 'GET',
-            url: `api/v1/post/?page=${pageNumber}`,
+            url: `api/v1/post/`,
+            params: {
+                page: page,
+                codePrice: codePrice,
+                codeArea: codeArea
+            }
         })
-        console.log(response)
         return response
     } catch (error) {
         console.log(error)

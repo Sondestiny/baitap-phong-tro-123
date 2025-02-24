@@ -31,7 +31,6 @@ const apiLogin = async (payload) => {
             url: 'api/v1/auth/login',
             data: payload
         })
-        console.log(response)
         return response
         
     } catch (error) {
