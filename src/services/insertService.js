@@ -1,14 +1,34 @@
-import db from '../models'
-import { hashPassword } from './authService'
-import generateCode from '../ultis/generateCode'
-import { v4 } from 'uuid'
-import dotenv from 'dotenv'
-import chothuephongtro from '../../data/chothuephongtro.json'
+import db from '../models';
+import { hashPassword } from './authService';
+import generateCode from '../ultis/generateCode';
+import formatPriceToNumber from '../ultis/formatPriceToNumber'
+import formatArea from '../ultis/formatAreaToNumber'
+import {dataPrices, dataAreas} from '../ultis/data'
+import { v4 } from 'uuid';
+import dotenv from 'dotenv';
+import chothuephongtro from '../../data/chothuephongtro.json';
 dotenv.config()
-const image_id = v4();
 const datas = chothuephongtro;
 export const insert = () =>  new Promise(async(resolve, reject) => {
     try {
+        dataPrices.forEach (async (price) => {
+            let priceID = v4();
+            await db.PriceFilter.create({
+                id: priceID,
+                order: price.order,
+                code: price.code,
+                value: price.value,
+            })
+        })
+        dataAreas.forEach (async (area) => {
+            let acreageID = v4();
+            await db.AreaFilter.create({
+                id: acreageID,
+                order: area.order,
+                code: area.code,
+                value: area.value,
+            })
+        })
         datas.forEach( async (data) => {
             let postId = v4();
             let userID = v4()
@@ -16,6 +36,8 @@ export const insert = () =>  new Promise(async(resolve, reject) => {
             let image_id = v4()
             let attributesID = v4();
             let labelcode = generateCode(4);
+            let currentPrice = formatPriceToNumber(data.header.price)
+            let currentArea = formatArea(data.header.acreage)
             const post = await db.Post.build({
                 id: postId,
                 title: data.header.title,
@@ -24,6 +46,8 @@ export const insert = () =>  new Promise(async(resolve, reject) => {
                 address: data.header.address,
                 attributesID,
                 categoryCode: "CHPT",
+                codePrice: dataPrices.find(({min, max})=>max >= currentPrice & min <= currentPrice)?.code,
+                codeArea: dataAreas.find(({min, max})=>max >= currentArea & min <= currentArea)?.code,
                 description: JSON.stringify(data.description),
                 userID,
                 overviewID,
@@ -32,7 +56,6 @@ export const insert = () =>  new Promise(async(resolve, reject) => {
                 updatedAt: Date.now(),
             })
             await post.save();
-
             await db.Atribute.create({
                 id: attributesID,
                 price: data.header.price,

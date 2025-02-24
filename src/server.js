@@ -4,11 +4,17 @@ import cors from 'cors';
 import rootRouter from './routers/index.js';
 import testConnectDB from './config/connectDB.js';
 const app = express(); // định nghĩa đối tượng app, là một ứng dụng express.
-
+import formatPriceToNumber from './ultis/formatPriceToNumber'
+import formatArea from './ultis/formatAreaToNumber'
+import {dataPrices, dataAreas} from './ultis/data'
 // Tuỳ chỉnh cho app, ta sẽ thêm body-parser và cors cho app
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cors());
+let currentPrice = formatPriceToNumber('1.5 triệu/tháng')
+let currentArea = formatArea('45 m2')
+console.log(currentPrice,dataPrices, dataPrices.find(({min, max})=>max > currentPrice & min <currentPrice))
+console.log(currentArea,dataAreas, dataAreas.find(({min, max})=>max > currentArea & min < currentArea))
 
 // setup port của app
 var port = process.env.PORT || 5000;
@@ -20,6 +26,7 @@ app.use('/api/v1', rootRouter); //gắn router xử lí khi người dùng GET �
 app.get('/', function(req, res){
 	res.send("<h2>This is my first app</h2>");
 })
+
 // Chạy server
 app.listen(port, () => {
     console.log(`server is start at http://localhost:${port}/`);

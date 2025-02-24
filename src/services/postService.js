@@ -24,21 +24,26 @@ export const getAll = () =>  new Promise(async(resolve, reject) => {
     }
 })
 
-export const getLimit = (pageNumber) =>  new Promise(async(resolve, reject) => {
+export const getLimit = ({pageNumber, codePrice, codeArea}) =>  new Promise(async(resolve, reject) => {
     try {
-        const {count, rows} = await db.Post.findAndCountAll({ 
-            raw: true,
-            nest: true,
-            offset: pageNumber* +process.env.LIMIT_PAGE,
-            limit: +process.env.LIMIT_PAGE || 5,
-            attributes: ['title', 'star', 'description', 'address'],
-            include: [
-                {model: db.Image, as: 'images', attributes: ['images']},
-                {model: db.Atribute, as: 'attribute', attributes: ['price', 'acreage']},
-                {model: db.User, as: 'user', attributes:['username', 'phone', 'zalo']}
-            ],
-            // where: { title: 'My Title' } 
-        })
+            let Where = {codePrice, codeArea}
+            if (!codePrice) {delete Where.codePrice}
+            if (!codeArea) {delete Where.codeArea}
+            console.log(Where)
+            const {count, rows} = await db.Post.findAndCountAll({ 
+                raw: true,
+                nest: true,
+                offset: pageNumber > 1 ? ((pageNumber-1) * +process.env.LIMIT_PAGE) : 0,
+                limit: +process.env.LIMIT_PAGE || 5,
+                attributes: ['title', 'star', 'description', 'address'],
+                include: [
+                    {model: db.Image, as: 'images', attributes: ['images']},
+                    {model: db.Atribute, as: 'attribute', attributes: ['price', 'acreage']},
+                    {model: db.User, as: 'user', attributes:['username', 'phone', 'zalo']}
+                ],
+                where: Where
+            })
+
 
         resolve({
             err: count ? 0 : 1,

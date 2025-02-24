@@ -38,6 +38,12 @@ module.exports = {
       imagesID: {
         type: Sequelize.STRING
       },
+      codePrice: {
+        type: Sequelize.STRING
+      },
+      codeArea: {
+        type: Sequelize.STRING
+      },
     });
   },
   async down(queryInterface, Sequelize) {
