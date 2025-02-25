@@ -1,22 +1,25 @@
-import React, { useState } from 'react'
 import icons from '../ultils/icons'
 const {BsFillBookmarkStarFill, FaStar, RiHeartLine} = icons
 const Item = ({images, star, title, price, acreage, address, description, username, phone, zalo}) => {
   // const [isHoverHeart, setIsHoverHeart] = useState(false)
+  console.log({images, star, title, price, acreage, address, description, username, phone, zalo})
   // console.log(isHoverHeart)
   let newStar = []
   for (let i = 1; i <= star; i++) {
     newStar.push(<FaStar className='star-icon' color='yellow' size={16}></FaStar>)
   };
   let newImage = []
-  for (let i = 0; i < 4; i++) {
-    newImage.push(<img className='object-cover w-[150px] h-[120px]' key={i} src={images[i]} alt='image'/>)
+  if (images) {
+    for (let i = 0; i < 4; i++) {
+      newImage.push(<img className='object-cover w-[150px] h-[120px]' key={i} src={images[i]} alt='image'/>)
   };
+  }
+  
   return (
     <div className='flex gap-2 bg-white p-2 shadow-md my-2 h-[280px] rounded-md'>
       <div className='w-2/5 grid grid-cols-2 grid-rows-2 gap-1 relative'>
             {newImage}
-            <span className='bg-gray-500 text-white opacity-75 rounded-md px-1 absolute left-2 bottom-4' > {images.length} ảnh </span>
+            <span className='bg-gray-500 text-white opacity-75 rounded-md px-1 absolute left-2 bottom-4' > {images? images.length : 0} ảnh </span>
             <span 
               className='text-white absolute right-2 bottom-4'
               // onClick={setIsHoverHeart(true)}
@@ -51,8 +54,8 @@ const Item = ({images, star, title, price, acreage, address, description, userna
             <p>{username}</p>
           </div>
           <div className=' flex gap-2'>
-            <button type='button' className='bg-blue-400 text-white rounded-lg px-3 py-2'>{phone.replace('tel:','')}</button>
-            <button type='button' className='border-4 border-indigo-500 text-blue-500 font-bold rounded-lg px-3 py-2 text-sm' number={zalo.replace('https://zalo.me/','')} >Zalo</button>
+            <button type='button' className='bg-blue-400 text-white rounded-lg px-3 py-2'>{phone?.replace('tel:','')}</button>
+            <button type='button' className='border-4 border-indigo-500 text-blue-500 font-bold rounded-lg px-3 py-2 text-sm' number={zalo?.replace('https://zalo.me/','')} >Zalo</button>
           </div>
         </div>     
       </div>
