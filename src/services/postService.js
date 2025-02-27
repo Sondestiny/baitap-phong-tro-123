@@ -24,16 +24,13 @@ export const getAll = () =>  new Promise(async(resolve, reject) => {
     }
 })
 
-export const getLimit = ({pageNumber, codePrice, codeArea}) =>  new Promise(async(resolve, reject) => {
+// post forload by page number
+export const getLimit = (page, arraySearch) =>  new Promise(async(resolve, reject) => {
     try {
-            let Where = {codePrice, codeArea}
-            if (!codePrice) {delete Where.codePrice}
-            if (!codeArea) {delete Where.codeArea}
-            console.log(Where)
             const {count, rows} = await db.Post.findAndCountAll({ 
                 raw: true,
                 nest: true,
-                offset: pageNumber > 1 ? ((pageNumber-1) * +process.env.LIMIT_PAGE) : 0,
+                offset: page > 1 ? ((page-1) * +process.env.LIMIT_PAGE) : 0,
                 limit: +process.env.LIMIT_PAGE || 5,
                 attributes: ['title', 'star', 'description', 'address'],
                 include: [
@@ -41,7 +38,7 @@ export const getLimit = ({pageNumber, codePrice, codeArea}) =>  new Promise(asyn
                     {model: db.Atribute, as: 'attribute', attributes: ['price', 'acreage']},
                     {model: db.User, as: 'user', attributes:['username', 'phone', 'zalo']}
                 ],
-                where: Where
+                where: arraySearch
             })
 
 

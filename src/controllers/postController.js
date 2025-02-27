@@ -1,3 +1,4 @@
+
 import * as postService from '../services/postService';
 
 export const getAllPost = async (req, res) => {
@@ -12,12 +13,11 @@ export const getAllPost = async (req, res) => {
     }
 }
 export const getPostLimit = async (req, res) => {
-    const pageNumber = await Number(req.query.page)
-    const codePrice = req.query.codePrice
-    const codeArea = req.query.codeArea
 
+    const {page, ...arraySearch} = req.query
+    console.log('Tìm bài đăng với các thuộc tính gồm ',arraySearch, ' và tìm ở trang số ',page)
     try {
-        const response = await postService.getLimit({pageNumber, codePrice, codeArea})
+        const response = await postService.getLimit(page,arraySearch)
         return res.status(200).json(response);
     } catch (error) {
         return res.status(500).json({

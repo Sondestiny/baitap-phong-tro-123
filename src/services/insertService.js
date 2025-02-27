@@ -11,7 +11,7 @@ import chothuecanhomini from '../../data/chothuecanhomini.json';
 import chothuenhanguyencan from '../../data/chothuenhanguyencan.json';
 import chothuecanhochungcu from '../../data/chothuecanhochungcu.json';
 dotenv.config()
-const datas = [
+const database = [
     {
         value: chothuephongtro,
         codeCategory: 'CHPT'
@@ -59,65 +59,67 @@ export const insert = () =>  new Promise(async(resolve, reject) => {
                 subtitle: Category.subtitle
             })
         })
-
-        datas.forEach( async (data) => {
-            let postId = v4();
-            let userID = v4()
-            let overviewID = v4()
-            let image_id = v4()
-            let attributesID = v4();
-            let labelcode = generateCode(4);
-            let currentPrice = formatPriceToNumber(data.value.header.price)
-            let currentArea = formatArea(data.value.header.acreage)
-            const post = await db.Post.build({
-                id: postId,
-                title: data.value.header.title,
-                star: data.value.header.star[1],
-                labelcode,
-                address: data.value.header.address,
-                attributesID,
-                categoryCode: data.codeCategory,
-                codePrice: dataPrices.find(({min, max})=>max >= currentPrice & min <= currentPrice)?.code,
-                codeArea: dataAreas.find(({min, max})=>max >= currentArea & min <= currentArea)?.code,
-                description: JSON.stringify(data.description),
-                userID,
-                overviewID,
-                imagesID: image_id,
-                createdAt: Date.now(),
-                updatedAt: Date.now(),
-            })
-            await post.save();
-            await db.Atribute.create({
-                id: attributesID,
-                price: data.value.header.price,
-                acreage: data.value.header.acreage,
-                published: true,
-                hashtag: null,
-            })
-            await db.Image.create({
-                id: image_id,
-                images: JSON.stringify(data.value.image),
-            })
-            await db.Overview.create({
-                id: overviewID,
-                code:data.value.overview.Code.context,
-                type:data.value.overview.packet.context,
-                created: data.value.overview.dateRelease.context,
-                expire: data.value.overview.dateExpired.context,
-            })
-            await db.User.create({
-                id: userID,
-                username: data.value.contact.contactName,
-                password: hashPassword("123456"),
-                phone: data.value.contact.contactPhone,
-                zalo: data.value.contact.contactZalo,
-            })
-            await db.label.create({
-                id: labelcode,
-                code: data.codeCategory,
-                value: null,
+        database.forEach( async (datas) => {
+            await datas.value.forEach( async (data) => {
+                let postId = v4();
+                let userID = v4();
+                let overviewID = v4()
+                let image_id = v4()
+                let attributesID = v4();
+                let labelcode = generateCode(4);
+                let currentPrice = formatPriceToNumber(data.header.price)
+                let currentArea = formatArea(data.header.acreage)
+                const post = await db.Post.build({
+                    id: postId,
+                    title: data.header.title,
+                    star: data.header.star ? data.header.star[1] : 'star-1',
+                    labelcode,
+                    address: data.header.address,
+                    attributesID,
+                    categoryCode: datas.codeCategory,
+                    codePrice: dataPrices.find(({min, max})=>max >= currentPrice & min <= currentPrice)?.code,
+                    codeArea: dataAreas.find(({min, max})=>max >= currentArea & min <= currentArea)?.code,
+                    description: JSON.stringify(data.description),
+                    userID,
+                    overviewID,
+                    imagesID: image_id,
+                    createdAt: Date.now(),
+                    updatedAt: Date.now(),
+                })
+                await post.save();
+                await db.Atribute.create({
+                    id: attributesID,
+                    price: data.header.price,
+                    acreage: data.header.acreage,
+                    published: true,
+                    hashtag: null,
+                })
+                await db.Image.create({
+                    id: image_id,
+                    images: JSON.stringify(data.image),
+                })
+                await db.Overview.create({
+                    id: overviewID,
+                    code:data.overview.Code.context,
+                    type:data.overview.packet.context,
+                    created: data.overview.dateRelease.context,
+                    expire: data.overview.dateExpired.context,
+                })
+                await db.User.create({
+                    id: userID,
+                    username: data.contact.contactName,
+                    password: hashPassword("123456"),
+                    phone: data.contact.contactPhone,
+                    zalo: data.contact.contactZalo,
+                })
+                await db.label.create({
+                    id: labelcode,
+                    code: datas.codeCategory,
+                    value: null,
+                })
             })
         })
+        
         resolve({
                 err: 0,
                 msg: 'insert database completed successfully',

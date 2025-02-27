@@ -11,11 +11,6 @@ import {dataPrices, dataAreas} from './ultis/data'
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(cors());
-let currentPrice = formatPriceToNumber('1.5 triệu/tháng')
-let currentArea = formatArea('45 m2')
-console.log(currentPrice,dataPrices, dataPrices.find(({min, max})=>max > currentPrice & min <currentPrice))
-console.log(currentArea,dataAreas, dataAreas.find(({min, max})=>max > currentArea & min < currentArea))
-
 // setup port của app
 var port = process.env.PORT || 5000;
 
