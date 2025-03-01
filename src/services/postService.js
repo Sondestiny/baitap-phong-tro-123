@@ -23,7 +23,6 @@ export const getAll = () =>  new Promise(async(resolve, reject) => {
         reject(error)
     }
 })
-
 // post forload by page number
 export const getLimit = (page, arraySearch) =>  new Promise(async(resolve, reject) => {
     try {
@@ -40,12 +39,35 @@ export const getLimit = (page, arraySearch) =>  new Promise(async(resolve, rejec
                 ],
                 where: arraySearch
             })
-
-
         resolve({
             err: count ? 0 : 1,
             msg: count ? 'Get post successfully ' : 'error at getLimit data post from database',
             response: {count, rows}|| null
+        })
+    } catch (error) {
+        reject(error)
+    }
+})
+export const getNewUpdateList = () => new Promise( async (resolve, reject) => {
+    try {
+        const response = await db.Post.findAll({
+                raw: true,
+                nest: true,
+                order: [
+                    ['updatedAt', 'DESC']
+                ],
+                attributes: ['title', 'updatedAt'],
+                include: [
+                    {model: db.Image, as: 'images', attributes: ['images']},
+                    {model: db.Atribute, as: 'attribute', attributes: ['price']},
+                ],
+                limit: +process.env.LIMIT_POST_NEW_UPDATE  || 10,
+
+        })
+        resolve({
+            err: response ? 0 : 1,
+            msg: response ? 'Get post List new update successfully ' : 'error at Get post List new update from database',
+            response: response || null
         })
     } catch (error) {
         reject(error)
